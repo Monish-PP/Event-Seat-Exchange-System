@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Seat Exchange | College Peer-to-Peer Seat Transfer Portal</title>
+    <meta name="description" content="A peer-to-peer Java & MySQL platform for college students to reserve seats, list seats for transfer, and exchange seats safely.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+    <!-- Dedicated Login Screen -->
+    <div class="login-wrapper" id="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="brand-icon login-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 18v3h16v-3M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v8H4v-8zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </div>
+                <h1 class="login-title">EventSeatExchange</h1>
+                <p class="login-subtitle">Campus Event Reservation & Peer-to-Peer Seat Transfer Portal</p>
+            </div>
+
+            <!-- Role Tabs -->
+            <div class="login-role-tabs">
+                <button type="button" class="login-role-btn active" id="tab-btn-student">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                    <span>Student Login</span>
+                </button>
+                <button type="button" class="login-role-btn" id="tab-btn-admin">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Admin Login</span>
+                </button>
+            </div>
+
+            <!-- Student Login Section -->
+            <div class="login-panel" id="panel-student-login">
+                <form id="form-student-login" class="styled-form">
+                    <div class="form-group">
+                        <label for="student-login-email">Student College Email *</label>
+                        <input type="email" id="student-login-email" required class="styled-input" placeholder="e.g. rahul.sharma@college.edu" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-login-password">Password *</label>
+                        <input type="password" id="student-login-password" required class="styled-input" placeholder="Enter student password" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-submit-student-login">
+                        <span>Sign In as Student</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </form>
+
+                <div class="login-divider"><span>OR</span></div>
+
+                <button type="button" class="btn btn-secondary btn-block" id="btn-toggle-student-signup">
+                    <span>New Student? Register Account</span>
+                </button>
+
+                <!-- Student Sign Up Section (Expands if clicked) -->
+                <form id="form-student-signup" class="styled-form" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-subtle);">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name *</label>
+                        <input type="text" id="signup-name" required class="styled-input" placeholder="e.g. Monish Kumar">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">College Email *</label>
+                        <input type="email" id="signup-email" required class="styled-input" placeholder="e.g. monish@college.edu">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Create Password *</label>
+                        <input type="password" id="signup-password" required class="styled-input" placeholder="Choose a password" autocomplete="new-password">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="signup-dept">Department *</label>
+                            <select id="signup-dept" class="styled-select" required>
+                                <option value="Computer Science & Engineering">CSE</option>
+                                <option value="Information Technology">IT</option>
+                                <option value="Artificial Intelligence & DS">AI & DS</option>
+                                <option value="Electronics & Communication">ECE</option>
+                                <option value="Mechanical Engineering">Mech</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-half">
+                            <label for="signup-year">Year *</label>
+                            <select id="signup-year" class="styled-select" required>
+                                <option value="1">1st Yr</option>
+                                <option value="2">2nd Yr</option>
+                                <option value="3" selected>3rd Yr</option>
+                                <option value="4">4th Yr</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block" style="margin-top: 0.5rem;" id="btn-submit-student-signup">
+                        <span>Create Account & Sign In</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Admin Login Section -->
+            <div class="login-panel" id="panel-admin-login" style="display: none;">
+                <div class="admin-notice-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <div>
+                        <strong>Event Administrator Portal</strong>
+                        <p style="font-size: 0.8rem; margin-top: 0.15rem; color: var(--text-muted);">Organizers can publish events, manage capacities, and oversee campus registrations.</p>
+                    </div>
+                </div>
+
+                <form id="form-admin-login" class="styled-form">
+                    <div class="form-group">
+                        <label for="admin-login-email">Admin Email *</label>
+                        <input type="email" id="admin-login-email" required class="styled-input" placeholder="admin@college.edu" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-login-password">Password *</label>
+                        <input type="password" id="admin-login-password" required class="styled-input" placeholder="Enter admin password" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-submit-admin-login">
+                        <span>Sign In as Event Administrator</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Main Layout (Shown after login) -->
+    <div class="app-layout" id="app-layout" style="display: none;">
+        <!-- Top Navbar -->
+        <header class="top-navbar" id="top-navbar">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 18v3h16v-3M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v8H4v-8zM8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">EventSeatExchange</span>
+                    <span class="brand-badge">Campus Portal</span>
+                </div>
+            </div>
+
+            <!-- Navbar Navigation Tabs -->
+            <nav class="navbar-tabs" id="tabs-navigation">
+                <button class="tab-btn active" data-tab="tab-events" id="nav-tab-events">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Upcoming Events</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-my-registrations" id="nav-tab-my-registrations">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                    <span>My Booked Seats</span>
+                    <span class="badge" id="badge-my-seats">0</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-marketplace" id="nav-tab-marketplace">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"></path></svg>
+                    <span>Seat Marketplace</span>
+                    <span class="badge badge-amber" id="badge-marketplace-seats">0</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-incoming" id="nav-tab-incoming">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+                    <span>Incoming Requests</span>
+                    <span class="badge badge-pulse" id="badge-incoming-count">0</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-outgoing" id="nav-tab-outgoing">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    <span>My Sent Requests</span>
+                    <span class="badge" id="badge-outgoing-count">0</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-history" id="nav-tab-history">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Audit History</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-create-event" id="nav-tab-create-event">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>+ Add Event</span>
+                </button>
+            </nav>
+
+            <!-- Top Controls & Profile Menu -->
+            <div class="nav-controls">
+                <button id="btn-theme-toggle" class="btn btn-secondary btn-icon" title="Toggle Theme" aria-label="Toggle Theme">
+                    <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+
+                <!-- Profile Dropdown Container -->
+                <div class="profile-dropdown-container" id="profile-dropdown-container">
+                    <button type="button" class="profile-icon-btn" id="btn-profile-trigger" title="My Account & Profile">
+                        <span class="profile-avatar" id="nav-avatar-circle">
+                            <span id="nav-avatar-initial">U</span>
+                        </span>
+                        <span class="profile-trigger-info">
+                            <span class="profile-trigger-name" id="nav-user-name">User</span>
+                        </span>
+                        <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Profile Dropdown Menu -->
+                    <div class="profile-dropdown-menu" id="profile-dropdown-menu">
+                        <div class="profile-dropdown-header">
+                            <div class="dropdown-avatar-circle" id="dropdown-avatar-circle">
+                                <span id="dropdown-avatar-letter">U</span>
+                            </div>
+                            <div class="profile-dropdown-details">
+                                <div class="profile-dropdown-title-row">
+                                    <strong id="dropdown-user-name" class="dropdown-user-name">Loading...</strong>
+                                    <span id="nav-user-role" class="nav-user-role">Student</span>
+                                </div>
+                                <span class="profile-dropdown-email" id="dropdown-user-email">user@college.edu</span>
+                                <span class="profile-dropdown-dept" id="dropdown-user-dept">CSE &bull; Year 3</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-dropdown-divider"></div>
+
+                        <div class="profile-dropdown-actions">
+                            <button type="button" class="profile-menu-item" id="btn-profile-my-seats">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                <span>My Booked Seats</span>
+                            </button>
+                            <button type="button" class="profile-menu-item logout-item" id="btn-logout" title="Log out of system">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content" id="main-content">
+            <!-- Hero Banner & System Overview -->
+            <section class="hero-section" id="hero-section">
+                <div class="hero-header">
+                    <h1 class="page-title">College Event Seat Exchange</h1>
+                    <p class="page-subtitle">Registered for an event you can no longer attend? List your seat for transfer and pass it seamlessly to an eligible peer with zero waste.</p>
+                </div>
+
+                <!-- Live Metrics Grid -->
+                <div class="metrics-grid" id="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon purple">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">College Events</span>
+                            <span class="metric-value" id="stat-total-events">-</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon emerald">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Direct Seats Open</span>
+                            <span class="metric-value" id="stat-direct-seats">-</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon amber">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Listed For Exchange</span>
+                            <span class="metric-value" id="stat-listed-exchange">-</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon cyan">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Completed Transfers</span>
+                            <span class="metric-value" id="stat-transfers">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 1: UPCOMING EVENTS -->
+            <section class="tab-pane active" id="tab-events">
+                <div class="section-toolbar">
+                    <div class="search-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="events-search-input" placeholder="Search event by name or venue..." class="styled-input">
+                    </div>
+                    <button id="btn-refresh-events" class="btn btn-secondary btn-icon" title="Refresh Events">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                    </button>
+                </div>
+                <div class="events-grid" id="events-grid-container">
+                    <!-- Event cards loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- TAB 2: MY BOOKED SEATS -->
+            <section class="tab-pane" id="tab-my-registrations">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">My Registered Seats</h2>
+                        <p class="section-desc">Seats booked by <strong id="my-seats-student-name">Current Student</strong>. List any confirmed seat for transfer if you cannot attend.</p>
+                    </div>
+                    <button id="btn-refresh-my-seats" class="btn btn-secondary btn-sm">Refresh List</button>
+                </div>
+                <div class="cards-table-container">
+                    <div id="my-registrations-container" class="registrations-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: SEAT EXCHANGE MARKETPLACE -->
+            <section class="tab-pane" id="tab-marketplace">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">Peer Seat Exchange Marketplace</h2>
+                        <p class="section-desc">Seats offered for transfer by fellow college students. Request a seat to attend full-capacity events.</p>
+                    </div>
+                    <button id="btn-refresh-marketplace" class="btn btn-secondary btn-sm">Refresh Marketplace</button>
+                </div>
+                <div class="cards-table-container">
+                    <div id="marketplace-list-container" class="marketplace-grid">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: INCOMING TRANSFER REQUESTS -->
+            <section class="tab-pane" id="tab-incoming">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">Incoming Transfer Requests</h2>
+                        <p class="section-desc">Students requesting your seats. Approving immediately transfers ownership atomically and updates records.</p>
+                    </div>
+                    <button id="btn-refresh-incoming" class="btn btn-secondary btn-sm">Refresh Requests</button>
+                </div>
+                <div id="incoming-requests-container" class="requests-list">
+                    <!-- Loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- TAB 5: MY SENT REQUESTS -->
+            <section class="tab-pane" id="tab-outgoing">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">My Sent Transfer Requests</h2>
+                        <p class="section-desc">Monitor the status of seat requests you've submitted to other students.</p>
+                    </div>
+                    <button id="btn-refresh-outgoing" class="btn btn-secondary btn-sm">Refresh Status</button>
+                </div>
+                <div id="outgoing-requests-container" class="requests-list">
+                    <!-- Loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- TAB 6: AUDIT HISTORY -->
+            <section class="tab-pane" id="tab-history">
+                <div class="section-header-row">
+                    <div>
+                        <h2 class="section-title">Completed Seat Transfer Audit Log</h2>
+                        <p class="section-desc">Centralized immutable record of verified peer-to-peer transfers.</p>
+                    </div>
+                    <button id="btn-refresh-history" class="btn btn-secondary btn-sm">Refresh History</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="styled-table" id="history-table">
+                        <thead>
+                            <tr>
+                                <th>History ID</th>
+                                <th>Event Details</th>
+                                <th>Original Seat Holder</th>
+                                <th>Receiving Student</th>
+                                <th>Transfer Timestamp</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <!-- Loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 7: CREATE EVENT (ORGANIZER) -->
+            <section class="tab-pane" id="tab-create-event">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2 class="section-title">Publish New College Event</h2>
+                        <p class="section-desc">Create and schedule a new college event, symposium, or conference.</p>
+                    </div>
+                    <form id="create-event-form" class="styled-form">
+                        <div class="form-group">
+                            <label for="event-name-input">Event Name *</label>
+                            <input type="text" id="event-name-input" required class="styled-input" placeholder="e.g. National Hackathon 2026">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-half">
+                                <label for="event-date-input">Event Date *</label>
+                                <input type="date" id="event-date-input" required class="styled-input">
+                            </div>
+                            <div class="form-group col-half">
+                                <label for="event-time-input">Event Time *</label>
+                                <input type="time" id="event-time-input" required class="styled-input">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-venue-input">Venue / Location *</label>
+                            <input type="text" id="event-venue-input" required class="styled-input" placeholder="e.g. Main Auditorium, Block A">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-half">
+                                <label for="event-total-seats-input">Total Capacity (Seats) *</label>
+                                <input type="number" id="event-total-seats-input" required min="1" class="styled-input" placeholder="100">
+                            </div>
+                            <div class="form-group col-half">
+                                <label for="event-deadline-input">Registration Deadline *</label>
+                                <input type="datetime-local" id="event-deadline-input" required class="styled-input">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="btn-submit-event">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Create College Event</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

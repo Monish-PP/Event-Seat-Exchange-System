@@ -1,0 +1,53 @@
+-- Event Seat Exchange Database Schema
+-- Tables: STUDENTS, EVENTS, EVENT_REGISTRATIONS, SEAT_TRANSFER_REQUESTS, SEAT_TRANSFER_HISTORY
+
+CREATE TABLE IF NOT EXISTS STUDENTS (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    department VARCHAR(100) NOT NULL,
+    year_of_study INT NOT NULL,
+    password VARCHAR(100) DEFAULT 'student123'
+);
+
+CREATE TABLE IF NOT EXISTS EVENTS (
+    event_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_name VARCHAR(150) NOT NULL,
+    event_date DATE NOT NULL,
+    event_time TIME NOT NULL,
+    venue VARCHAR(150) NOT NULL,
+    total_seats INT NOT NULL,
+    available_seats INT NOT NULL,
+    registration_deadline DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS EVENT_REGISTRATIONS (
+    registration_id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    student_id INT NOT NULL,
+    registration_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    seat_status VARCHAR(30) NOT NULL,
+    FOREIGN KEY (event_id) REFERENCES EVENTS(event_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS SEAT_TRANSFER_REQUESTS (
+    transfer_id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_id INT NOT NULL,
+    requested_by INT NOT NULL,
+    request_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    transfer_status VARCHAR(30) NOT NULL,
+    FOREIGN KEY (registration_id) REFERENCES EVENT_REGISTRATIONS(registration_id) ON DELETE CASCADE,
+    FOREIGN KEY (requested_by) REFERENCES STUDENTS(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS SEAT_TRANSFER_HISTORY (
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    transfer_id INT NOT NULL,
+    previous_student_id INT NOT NULL,
+    new_student_id INT NOT NULL,
+    transfer_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (transfer_id) REFERENCES SEAT_TRANSFER_REQUESTS(transfer_id) ON DELETE CASCADE,
+    FOREIGN KEY (previous_student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (new_student_id) REFERENCES STUDENTS(student_id) ON DELETE CASCADE
+);
